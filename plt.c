@@ -496,13 +496,15 @@ COMMAND(plt, nvs_ver, "<arch>",
 	NL80211_CMD_TESTMODE, 0, CIB_NETDEV, plt_nvs_ver2,
 	"Set NVS version\n");
 
+/* must be global since used by a a callback inside plt_tx_bip */
+static char nvs_path[PATH_MAX];
+
 static int plt_tx_bip(struct nl80211_state *state, struct nl_cb *cb,
 			struct nl_msg *msg, int argc, char **argv)
 {
 	struct nlattr *key;
 	struct wl1271_cmd_cal_p2g prms;
 	int i;
-	char nvs_path[PATH_MAX];
 
 	if (argc < 8) {
 		fprintf(stderr, "%s> Missing arguments\n", __func__);
